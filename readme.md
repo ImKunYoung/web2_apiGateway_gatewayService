@@ -1,13 +1,3 @@
-## ⭐ LAB - Gateway API 구현
-
-
-
-
-
-
-
-
-
 
 
 ## ⭐ LAB - Filter 구현
