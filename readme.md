@@ -122,15 +122,82 @@ spring:
 ![](readmeFile/img_2.png)
 
 
+<br/>
+<br/>
+<br/>
+
+# ⭐ Spring Cloud Gateway - Eureka 연동
+
+<br/>
+
+#### 📑 Eureka Client 추가
+
+- pom.xml
+```xml
+ <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    <version>3.1.3</version>
+</dependency>
+```
+
+<br/>
+
+- application.yml
+```yaml
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+        defaultZone: http://localhost:8761/eureka/
+```
 
 
+<br/>
+
+#### 📑 Eureka Client 추가 at (Spring Cloud Gateway, First Service, Second Service) - application.yml
+
+```yaml
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+        defaultZone: http://localhost:8761/eureka/
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: first-service
+          uri: lb://MY-FIRST-SERVICE
+          predicates:
+            - Path=/first-service/**
+          filters:
+            - AddRequestHeader=first-request, first-request-header2
+            - AddResponseHeader=first-response, first-response-header2
+        - id: second-service
+          uri: lb://MY-SECOND-SERVICE
+          predicates:
+            - Path=/second-service/**
+          filters:
+            - AddRequestHeader=second-request, second-request-header2
+            - AddResponseHeader=second-response, second-response-header2
+
+```
 
 
+<br/>
 
+#### 📑 Eureka Server -Service 등록 확인
 
-
-
-
+![](readmeFile/img_3.png)
 
 
 
